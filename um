@@ -1,0 +1,71 @@
+#!/usr/bin/python3
+
+import serial
+from time import sleep
+from sys import argv
+
+def at_do(numtty, atcmd):
+
+    ser = serial.Serial()
+    ser.port = '/dev/ttyUSB%s' % (numtty)
+    ser.baudrate = 115200
+    ser.rtscts = True                    #disable hardware (RTS/CTS) flow control
+    ser.dsrdtr = True                    #disable hardware (DSR/DTR) flow control
+    # ser.bytesize = serial.SEVENTBITS   #number of bits per bytes
+    # ser.parity = serial.PARITY_ODD     #set parity check: no parity
+    # ser.stopbits = serial.STOPBITS_ONE #number of stop bits
+    # ser.timeout = None                 #block read
+    # ser.timeout = 1                    #non-block read
+    # ser.timeout = 2                    #timeout block read
+    # ser.xonxoff = False                #disable software flow control
+    # ser.writeTimeout = None               #timeout for write
+
+    try:
+        ser.open()
+    except Exception as e:
+        print("error open serial port: " + str(e))
+        exit()
+
+    if ser.isOpen():
+
+        try:
+            ser.flushInput()
+            ser.flushOutput()
+
+            cmd = atcmd + '\r\n'
+
+            ser.write(cmd.encode())
+
+            sleep(0.5)
+
+            numOfLines = 0
+
+            while True:
+
+                response = ser.readline()
+
+                print(response.decode())
+
+                numOfLines = numOfLines + 1
+
+                if (numOfLines >= 5):
+                    break
+            ser.close()
+
+        except Exception as e1:
+            print("error communicating...: " + str(e1))
+            exit()
+
+    else:
+        print("cannot open serial port ")
+
+
+if __name__ == '__main__':
+
+    if len(argv) != 3:
+        print('usage: um 1 at')
+        print('1  - number ttyUSB')
+        print('at - at command')
+        exit()
+
+    at_do(numtty = argv[1], atcmd = argv[2])
