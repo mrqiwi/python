@@ -18,7 +18,7 @@ def at_do(numtty, atcmd):
     # ser.timeout = 1                    #non-block read
     # ser.timeout = 2                    #timeout block read
     # ser.xonxoff = False                #disable software flow control
-    # ser.writeTimeout = None               #timeout for write
+    # ser.writeTimeout = None            #timeout for write
 
     try:
         ser.open()
@@ -38,18 +38,21 @@ def at_do(numtty, atcmd):
 
             sleep(0.5)
 
-            numOfLines = 0
+            # numOfLines = 0
 
             while True:
 
-                response = ser.readline()
+                response = ser.readline().decode()
 
-                print(response.decode())
+                print(response)
 
-                numOfLines = numOfLines + 1
-
-                if (numOfLines >= 5):
+                if ('OK' in response) or ('ERROR' in response):
                     break
+
+                # numOfLines = numOfLines + 1
+
+                # if (numOfLines >= 5):
+                    # break
             ser.close()
 
         except Exception as e1:
