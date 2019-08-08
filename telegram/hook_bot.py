@@ -5,7 +5,7 @@
 # source venv/bin/activate
 
 # установка вебхука
-# https://api.telegram.org/bot773081167:AAHwNuZ-tW7Q0eLYHmWlJY3jeWNXZ6JAwh4/setWebhook?url=https://mrqiwi.pythonanywhere.com/
+# https://api.telegram.org/bot<token>/setWebhook?url=https://mrqiwi.pythonanywhere.com/
 
 from flask import Flask
 from flask import request
@@ -18,7 +18,7 @@ import re
 app = Flask(__name__)
 sslify = SSLify(app)
 
-URL = 'https://api.telegram.org/bot773081167:AAHwNuZ-tW7Q0eLYHmWlJY3jeWNXZ6JAwh4/'    
+URL = 'https://api.telegram.org/bot<token>/'    
 
 def write_json(data, filename='answer.json'):
     with open(filename, 'w') as f:
