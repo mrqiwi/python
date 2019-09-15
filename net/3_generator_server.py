@@ -4,7 +4,7 @@ import socket
 from select import select
 
 
-tasks = []
+tasks = []  # список фунок-генераторов
 
 
 to_read = {}
