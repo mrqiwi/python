@@ -32,11 +32,11 @@ def print_start(update, context):
 
 def print_help(update, context):
     update.message.reply_text( '''Commands list:
-                1) poweroff - poweroff, off, выкл, выключение
-                2) reboot - reset, reboot, restart, перезагрузка''')
+    1) poweroff - poweroff, off, выкл, выключение
+    2) reboot - reset, reboot, restart, перезагрузка''')
 
 def text(update, context):
-    telegram_time = datetime.strptime(str(update.message.date), '%Y-%m-%d %H:%M:%S')
+    telegram_time = datetime.strptime(str(update.message.date)[:19], '%Y-%m-%d %H:%M:%S')
     current_time = datetime.utcnow()
     diff_time = current_time - telegram_time
     # если сообщение было отправлено более 10 сек назад - игнорируем его
